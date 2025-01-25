@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
@@ -20,29 +21,53 @@ namespace hw_classes_csharp
         {
             SetBirthdayDate(day, month, year);
         }
+        public int Day
+        {
+            get { return day; }
+            set
+            {
+                if (value > 0 && value <= 31)
+                    day = value;
+                else
+                    throw new ArgumentOutOfRangeException("Invalid value for day!");
+            }
+        }
+        public int Month
+        {
+            get { return month; }
+            set
+            {
+                if (value > 0 && value <= 12)
+                    month = value;
+                else
+                    throw new ArgumentOutOfRangeException("Invalid value for month!");
+            }
+        }
+        public int Year
+        {
+            get { return year; }
+            set
+            {
+                if (value > 0 && value <= 2021)
+                    year = value;
+                else
+                    throw new ArgumentOutOfRangeException("Invalid value for year!");
+            }
+        }
         public void SetBirthdayDate(int day, int month, int year)
         {
             if (day > 0 && day <= 31)
                 this.day = day;
             else
-            {
-                Console.WriteLine("Invalid value for day!");
-                return;
-            }
+                throw new ArgumentOutOfRangeException("Invalid value for day!");
             if (month > 0 && month <= 12)
                 this.month = month;
             else
-            {
-                Console.WriteLine("Invalid value for month!");
-                return;
-            }
+                throw new ArgumentOutOfRangeException("Invalid value for month!");
             if (year > 0 && year <= 2021)
                 this.year = year;
             else
-            {
-                Console.WriteLine("Invalid value for year!");
-                return;
-            }
+                throw new ArgumentOutOfRangeException("Invalid value for year!");
         }
         public (int day, int month, int year) GetBirthdayDate()
         {
@@ -61,32 +86,57 @@ namespace hw_classes_csharp
             {
                 SetFullName(firstName, lastName, patronymic);
             }
-            public void SetFullName(string firstName, string lastName, string patronymic)
+        public string? FirstName
+        {
+            get { return firstName; }
+            set
             {
-                if (firstName.Length > 0)
+                if (!string.IsNullOrEmpty(value))
+                    firstName = value;
+                else
+                    throw new ArgumentException("First name cannot be null or empty!");
+            }
+        }
+        public string? LastName
+        {
+            get { return lastName; }
+            set
+            {
+                if (!string.IsNullOrEmpty(value))
+                    lastName = value;
+                else
+                    throw new ArgumentException("Last name cannot be null or empty!");
+            }
+        }
+        public string? Patronymic
+        {
+            get { return patronymic; }
+            set
+            {
+                if (!string.IsNullOrEmpty(value))
+                    patronymic = value;
+                else
+                    throw new ArgumentException("Patronymic cannot be null or empty!");
+            }
+        }
+        public void SetFullName(string firstName, string lastName, string patronymic)
+            {
+                if (!string.IsNullOrEmpty(firstName))
                     this.firstName = firstName;
                 else
-                {
-                    Console.WriteLine("Invalid value for first name!");
-                    return;
-                }
-                if (lastName.Length > 0)
+                    throw new ArgumentException("First name cannot be null or empty!"); 
+                if (!string.IsNullOrEmpty(lastName))
                     this.lastName = lastName;
                 else
-                {
-                    Console.WriteLine("Invalid value for last name!");
-                    return;
-                }
-                if (patronymic.Length > 0)
+                    throw new ArgumentException("Last name cannot be null or empty!"); 
+
+                if (!string.IsNullOrEmpty(patronymic))
                     this.patronymic = patronymic;
                 else
-                {
-                    Console.WriteLine("Invalid value for patronymic!");
-                    return;
-                }
+                    throw new ArgumentException("Patronymic cannot be null or empty!");
 
             }
-            public (string firstName, string lastName, string patronymic) GetFullName()
+            public (string? firstName, string? lastName, string? patronymic) GetFullName()
             {
                 return (firstName, lastName, patronymic);
             }
@@ -114,35 +164,51 @@ namespace hw_classes_csharp
             credits = new List<int>();
             exams = new List<int>();
         }
-        public int CompareTo(Student other)
+        public int CompareTo(Student? other)
         {
-            return this.fullName.GetFullName().lastName.CompareTo(other.fullName.GetFullName().lastName);
+            return this.fullName.GetFullName().lastName.CompareTo(other?.fullName.GetFullName().lastName);
+        }
+        public string? Adress
+        {
+            get { return address; }
+            set
+            {
+                if (!string.IsNullOrEmpty(value)) 
+                    address = value;
+                else 
+                    throw new ArgumentException("Address cannot be null or empty!");
+            }
+        }
+        public string? PhoneNumber
+        {
+            get { return phoneNumber; }
+            set
+            {
+                if (!string.IsNullOrEmpty(value))
+                    phoneNumber = value;
+                else
+                    throw new ArgumentException("Phone number cannot be null or empty!");
+            }
         }
         public void SetAdress(string address)
         {
-            if (address.Length > 0)
+            if (!string.IsNullOrEmpty(address))
                 this.address = address;
             else
-            {
-                Console.WriteLine("Invalid value for address!");
-                return;
-            }
+                throw new ArgumentException("Address cannot be null or empty!");
         }
-        public string GetAddress()
+        public string? GetAddress()
         {
             return address;
         }
         public void SetPhoneNumber(string phoneNumber)
         {
-            if (phoneNumber.Length > 0)
+            if (!string.IsNullOrEmpty(phoneNumber))
                 this.phoneNumber = phoneNumber;
             else
-            {
-                Console.WriteLine("Invalid value for phone number!");
-                return;
-            }
+                throw new ArgumentException("Phone number cannot be null or empty!");
         }
-        public string GetPhoneNumber()
+        public string? GetPhoneNumber()
         {
             return phoneNumber;
         }
@@ -151,17 +217,13 @@ namespace hw_classes_csharp
             if (courseworkGrade > 0)
                 courseworks.Add(courseworkGrade);
             else
-            {
-                Console.WriteLine("Invalid value for coursework!");
-                return;
-            }
+                throw new ArgumentException("Invalid value for coursework!");
         }
         public int GetCourseworkGrade(int index)
         {
             if (index >= 0 && index < courseworks.Count)
             {
-                Console.WriteLine("Invalid index!");
-                return -1;
+                throw new ArgumentOutOfRangeException();
             }
             return courseworks[index];
         }
@@ -170,17 +232,13 @@ namespace hw_classes_csharp
             if (creditGrade > 0)
                 credits.Add(creditGrade);
             else
-            {
-                Console.WriteLine("Invalid value for credit!");
-                return;
-            }
+                throw new ArgumentException();
         }
         public int GetCreditGrade(int index)
         {
             if (index >= 0 && index < credits.Count)
             {
-                Console.WriteLine("Invalid index!");
-                return -1;
+                throw new ArgumentOutOfRangeException();
             }
             return credits[index];
         }
@@ -189,17 +247,13 @@ namespace hw_classes_csharp
             if (examGrade > 0)
                 exams.Add(examGrade);
             else
-            {
-                Console.WriteLine("Invalid value for exam!");
-                return;
-            }
+                throw new ArgumentException();
         }
         public int GetExamGrade(int index)
         {
             if (index >= 0 && index < exams.Count)
             {
-                Console.WriteLine("Invalid index!");
-                return -1;
+                throw new ArgumentOutOfRangeException();
             }
             return exams[index];
         }

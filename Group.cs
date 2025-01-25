@@ -23,6 +23,19 @@ namespace hw_classes_csharp
             students = new List<Student>();
             SetGroupInfo(groupName, groupSpecialization, groupCourse);
         }
+        public string GroupName { get; set; } = "Unknown";
+        public string GroupSpecialization { get; set; } = "Unknown";
+        public int GroupCourse
+        {
+            get { return groupCourse; }
+            set
+            {
+                if (value > 0 && value <= 6)
+                    groupCourse = value;
+                else
+                    throw new ArgumentOutOfRangeException("Invalid value for course!");
+            }
+        }
         public void SetGroupInfo(string groupName, string groupSpecialization, int groupCourse)
         {
             this.groupName = groupName;
@@ -30,10 +43,7 @@ namespace hw_classes_csharp
             if (groupCourse > 0 && groupCourse <= 6)
                 this.groupCourse = groupCourse;
             else
-            {
-                Console.WriteLine("Invalid value for course!");
-                return;
-            }
+                throw new ArgumentOutOfRangeException("Invalid value for course!");
         }
         public (string groupName, string groupSpecialization, int groupCourse) GetGroupInfo()
         {
@@ -48,10 +58,7 @@ namespace hw_classes_csharp
             if (index >= 0 && index < students.Count)
                 return students[index];
             else
-            {
                 throw new IndexOutOfRangeException("Invalid index!");
-
-            }
         }
         public void PrintGroupInfo()
         {
@@ -80,8 +87,7 @@ namespace hw_classes_csharp
         {
             if (!students.Contains(student))
             {
-                Console.WriteLine("There is no such student in the group!");
-                return;
+                throw new ArgumentException("There is no such student in the group!");
             }
             students.Remove(student);
         }
@@ -89,20 +95,18 @@ namespace hw_classes_csharp
         {
             if (!students.Contains(student))
             {
-                Console.WriteLine("There is no such student in the group!");
-                return;
+                throw new ArgumentException("There is no such student in the group!");
             }
             if (group.students.Contains(student))
             {
-                Console.WriteLine("Student is already in this group!");
-                return;
+                throw new ArgumentException("This student is already in this group!");
             }
             students.Remove(student);
             group.AddStudent(student);
         }
         public void ExpelTheWorstStudent()
         {
-            Student theWorstStudent = null;
+            Student? theWorstStudent = null;
             double minValue = 12;
 
             foreach (var student in students)
@@ -121,7 +125,7 @@ namespace hw_classes_csharp
         }
         public void ExpelLowScorers()
         {
-            Student lowScorer = null;
+            Student? lowScorer = null;
 
             for (int i = 0; i < students.Count; i++)
             {

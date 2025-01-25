@@ -104,5 +104,14 @@ public class Program
         group2.PrintGroupInfo();
         Console.WriteLine("\n");
         group.PrintGroupInfo();
+
+        try
+        {
+            student.GetCourseworkGrade(13);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e.Message);
+        }
     }
 }
