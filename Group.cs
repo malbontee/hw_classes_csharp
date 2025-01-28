@@ -7,7 +7,7 @@ using hw_classes_csharp;
 
 namespace hw_classes_csharp
 {
-    public class Group
+    public class Group : ICloneable
     {
         private List<Student> students;
         private string? groupName;
@@ -35,6 +35,16 @@ namespace hw_classes_csharp
                 else
                     throw new ArgumentOutOfRangeException("Invalid value for course!");
             }
+        }
+        public object Clone()
+        {
+            return new Group
+            {
+                groupName = this.groupName,
+                groupSpecialization = this.groupSpecialization,
+                groupCourse = this.groupCourse,
+                students = new List<Student>(this.students)
+            };
         }
         public void SetGroupInfo(string groupName, string groupSpecialization, int groupCourse)
         {

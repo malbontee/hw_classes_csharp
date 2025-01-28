@@ -142,7 +142,7 @@ namespace hw_classes_csharp
             }
 
         }
-    public class Student : IComparable<Student> 
+    public class Student : IComparable<Student>, ICloneable
     {
         private FullName fullName;
         private BirthdayDate birthday;
@@ -163,6 +163,19 @@ namespace hw_classes_csharp
             courseworks = new List<int>();
             credits = new List<int>();
             exams = new List<int>();
+        }
+        public object Clone()
+        {
+            return new Student
+            {
+                fullName = this.fullName,
+                birthday = this.birthday,
+                address = this.address,
+                phoneNumber = this.phoneNumber,
+                courseworks = new List<int>(this.courseworks),
+                credits = new List<int>(this.credits),
+                exams = new List<int>(this.exams)
+            };
         }
         public int CompareTo(Student? other)
         {

@@ -113,5 +113,15 @@ public class Program
         {
             Console.WriteLine(e.Message);
         }
+
+        var studentCopy = student.Clone() as Student;
+        studentCopy.AddCourseworkGrade(12);
+        student.PrintStudentInfo();
+        studentCopy.PrintStudentInfo();
+        var groupCopy = group.Clone() as Group;
+        var student8 = new Student(new FullName("Stepan", "Stepanov", "Stepanovych"), new BirthdayDate(5, 10, 1975), "вул. Тракторобудивників 63", "+380681234567");
+        groupCopy.AddStudent(student8);
+        group.PrintGroupInfo();
+        groupCopy.PrintGroupInfo();
     }
 }
